@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sneak Peek</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    color: white;
+  }
+
+  /* ⏳ WAITING SCREEN */
+  #waiting {
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+      url("IMG_0714.png") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  #lock {
+    background: rgba(0,0,0,0.45);
+    padding: 22px 26px;
+    border-radius: 18px;
+    backdrop-filter: blur(8px);
+    max-width: 90vw;
+  }
+
+  /* 📱 MOBILE-FIRST TEXT */
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+
+  #timer {
+    margin-top: 8px;
+    font-size: 1.05rem;
+    opacity: 0.9;
+  }
+
+  /* 🖼️ REVEAL IMAGE */
+  #revealImage {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    background: black;
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out;
+  }
+
+  @media (min-width: 600px) {
+    h1 { font-size: 2rem; }
+    #timer { font-size: 1.2rem; }
+  }
+
+  @media (min-width: 1024px) {
+    h1 { font-size: 2.4rem; }
+    #timer { font-size: 1.35rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ⏳ WAITING PAGE -->
+<div id="waiting">
+  <div id="lock">
+    <h1>⏳️ Sneak Peek Will Unlock Soon</h1>
+    <p id="timer"></p>
+  </div>
+</div>
+
+<!-- 🎁 REVEAL IMAGE -->
+<img id="revealImage" src="IMG_1146.jpeg">
+
+<script>
+  // ⏰ Unlock at 15:20 on 13 January 2026 (LOCAL DEVICE TIME)
+  const unlockTime = new Date("2026-01-13T15:20:00").getTime();
+
+  const waiting = document.getElementById("waiting");
+  const img = document.getElementById("revealImage");
+  const timerText = document.getElementById("timer");
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = unlockTime - now;
+
+    if (diff <= 0) {
+      waiting.style.display = "none";
+      img.style.display = "block";
+      setTimeout(() => img.style.opacity = "1", 100);
+    } else {
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      timerText.innerHTML = `Unlocks in ${h}h ${m}m ${s}s`;
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>
