@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reveal Page</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: black;
+    color: white;
+  }
+
+  /* WAITING BACKGROUND */
+  #waiting {
+    position: fixed;
+    inset: 0;
+    background: 
+      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      url("waiting.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+  }
+
+  /* TEXT BOX */
+  #lock {
+    padding: 20px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 12px;
+  }
+
+  /* REVEAL IMAGE */
+  #revealImage {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain; /* change to cover if needed */
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- WAITING SCREEN -->
+<div id="waiting">
+  <div id="lock">
+    <h1>⏳ Sneak Peek will unlock soon</h1>
+    <p id="timer"></p>
+  </div>
+</div>
+
+<!-- FINAL IMAGE -->
+<img id="revealImage" src="IMG_1146.jpeg">
+
+<script>
+  const unlockTime = new Date("2026-01-13T15:20:00").getTime();
+
+  const waiting = document.getElementById("waiting");
+  const img = document.getElementById("revealImage");
+  const timerText = document.getElementById("timer");
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = unlockTime - now;
+
+    if (diff <= 0) {
+      waiting.style.display = "none";
+      img.style.display = "block";
+      setTimeout(() => img.style.opacity = "1", 100);
+    } else {
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      timerText.innerHTML = `Unlocks in ${h}h ${m}m ${s}s`;
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>
