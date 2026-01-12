@@ -1,0 +1,64 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reveal Page</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  img {
+    max-width: 90%;
+    max-height: 90vh;
+    display: none;
+    border-radius: 12px;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="lock">
+  <h1>⏳ Sneek Peek will unlock soon</h1>
+  <p id="timer"></p>
+</div>
+
+<img id="revealImage" src="https://drive.google.com/file/d/1_cvOMW5sY5W8itbSvHSUtfuVFTRqjPi0/view?usp=drivesdk" alt="Revealed Image">
+
+<script>
+  // 🔴 SET YOUR UNLOCK DATE & TIME HERE (YYYY-MM-DDTHH:MM:SS)
+  const unlockTime = new Date("2026-01-13T13:50:00").getTime();
+
+  const lockDiv = document.getElementById("lock");
+  const img = document.getElementById("revealImage");
+  const timerText = document.getElementById("timer");
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = unlockTime - now;
+
+    if (diff <= 0) {
+      lockDiv.style.display = "none";
+      img.style.display = "block";
+    } else {
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      timerText.innerHTML = `Unlocks in ${h}h ${m}m ${s}s`;
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>
